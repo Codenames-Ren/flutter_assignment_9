@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_assignment_9/service/fcm_token_card.dart';
 
 class UserInfoScreen extends StatelessWidget {
   final User user;
@@ -33,7 +34,15 @@ class UserInfoScreen extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 50,
-                child: Icon(Icons.person, size: 60, color: Colors.blue),
+                backgroundImage: user.photoURL != null
+                    ? NetworkImage(user.photoURL!)
+                    : null,
+                onBackgroundImageError: user.photoURL != null
+                    ? (_, __) {}
+                    : null,
+                child: user.photoURL == null
+                    ? const Icon(Icons.person, size: 60)
+                    : null,
               ),
 
               const SizedBox(height: 24),
@@ -77,6 +86,7 @@ class UserInfoScreen extends StatelessWidget {
               ),
 
               const SizedBox(height: 16),
+              const FcmTokenCard(),
             ],
           ),
         ),
